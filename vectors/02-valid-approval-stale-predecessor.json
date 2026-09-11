@@ -1,0 +1,33 @@
+{
+  "id": "valid-approval-stale-predecessor",
+  "description": "A valid action approval exists, but the resource observation used at execution is stale relative to the state against which authorization was granted.",
+  "source_assumptions": [
+    "Agent Manifest HITL approval signature and approved action binding verify",
+    "policy/configuration verification is otherwise valid"
+  ],
+  "evidence": {
+    "authorization_id": "auth-001",
+    "authorized_resource_id": "resource:acct-17",
+    "execution_resource_id": "resource:acct-17",
+    "observation_resource_id": "resource:acct-17",
+    "authorized_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "executed_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authorized_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observed_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "expected_successor_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "observed_successor_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "execution_policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "predecessor_observer_trusted": true,
+    "successor_observer_trusted": true,
+    "predecessor_fresh": false,
+    "successor_fresh": true,
+    "execution_succeeded": true,
+    "replay_detected": false,
+    "successor_observed": true
+  },
+  "expected": {
+    "disposition": "FAILED",
+    "reason_contains": "stale"
+  }
+}
