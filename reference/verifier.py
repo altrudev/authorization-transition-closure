@@ -1,13 +1,22 @@
 """Reference verifier for Authorization Transition Closure.
 
-This module intentionally implements only exact-binding semantics. It is a
-research baseline, not a complete domain policy engine.
+The reference implementation is intentionally conservative. It implements exact
+binding semantics only; domain profiles may later replace exact successor
+equality with a richer transition predicate.
+
+CLOSED means the evidence supplied to this function is sufficient under this
+model. It does not make an untrusted observer trustworthy merely because the
+observer's bytes were hashed.
 """
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from enum import Enum
+
+
+_DIGEST_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
 class Disposition(str, Enum):
@@ -25,17 +34,38 @@ class VerificationResult:
 @dataclass(frozen=True)
 class TransitionEvidence:
     authorization_id: str | None
+    authorized_resource_id: str | None
+    execution_resource_id: str | None
+    observation_resource_id: str | None
+
     authorized_action_digest: str | None
     executed_action_digest: str | None
+
     authorized_predecessor_digest: str | None
     observed_predecessor_digest: str | None
     expected_successor_digest: str | None
     observed_successor_digest: str | None
+
     policy_digest: str | None
     execution_policy_digest: str | None
+
+    predecessor_observer_trusted: bool | None
+    successor_observer_trusted: bool | None
+    predecessor_fresh: bool | None
+    successor_fresh: bool | None
+
     execution_succeeded: bool | None
     replay_detected: bool | None
     successor_observed: bool | None
+
+
+def _bad_digest(name: str, value: str | None) -> VerificationResult | None:
+    if value is not None and _DIGEST_RE.fullmatch(value) is None:
+        return VerificationResult(
+            Disposition.FAILED,
+            f"{name} is not a canonical sha256 digest",
+        )
+    return None
 
 
 def verify_transition(e: TransitionEvidence) -> VerificationResult:
@@ -43,6 +73,9 @@ def verify_transition(e: TransitionEvidence) -> VerificationResult:
 
     required_for_reasoning = {
         "authorization_id": e.authorization_id,
+        "authorized_resource_id": e.authorized_resource_id,
+        "execution_resource_id": e.execution_resource_id,
+        "observation_resource_id": e.observation_resource_id,
         "authorized_action_digest": e.authorized_action_digest,
         "executed_action_digest": e.executed_action_digest,
         "authorized_predecessor_digest": e.authorized_predecessor_digest,
@@ -57,8 +90,54 @@ def verify_transition(e: TransitionEvidence) -> VerificationResult:
             "missing required evidence: " + ", ".join(sorted(missing)),
         )
 
+    for name in (
+        "authorized_action_digest",
+        "executed_action_digest",
+        "authorized_predecessor_digest",
+        "observed_predecessor_digest",
+        "expected_successor_digest",
+        "observed_successor_digest",
+        "policy_digest",
+        "execution_policy_digest",
+    ):
+        bad = _bad_digest(name, getattr(e, name))
+        if bad is not None:
+            return bad
+
     if e.replay_detected is True:
         return VerificationResult(Disposition.FAILED, "replay detected")
+
+    if not (
+        e.authorized_resource_id
+        == e.execution_resource_id
+        == e.observation_resource_id
+    ):
+        return VerificationResult(
+            Disposition.FAILED,
+            "authorization, execution, and observation name different resources",
+        )
+
+    if e.predecessor_observer_trusted is False:
+        return VerificationResult(
+            Disposition.FAILED,
+            "predecessor observer is explicitly untrusted",
+        )
+    if e.predecessor_observer_trusted is None:
+        return VerificationResult(
+            Disposition.INDETERMINATE,
+            "predecessor observer trust is unknown",
+        )
+
+    if e.predecessor_fresh is False:
+        return VerificationResult(
+            Disposition.FAILED,
+            "predecessor observation is stale",
+        )
+    if e.predecessor_fresh is None:
+        return VerificationResult(
+            Disposition.INDETERMINATE,
+            "predecessor freshness is unknown",
+        )
 
     if e.authorized_predecessor_digest != e.observed_predecessor_digest:
         return VerificationResult(
@@ -80,7 +159,6 @@ def verify_transition(e: TransitionEvidence) -> VerificationResult:
 
     if e.execution_succeeded is False:
         return VerificationResult(Disposition.FAILED, "execution reported failure")
-
     if e.execution_succeeded is None:
         return VerificationResult(
             Disposition.INDETERMINATE,
@@ -91,6 +169,28 @@ def verify_transition(e: TransitionEvidence) -> VerificationResult:
         return VerificationResult(
             Disposition.INDETERMINATE,
             "successor state is not independently observed",
+        )
+
+    if e.successor_observer_trusted is False:
+        return VerificationResult(
+            Disposition.FAILED,
+            "successor observer is explicitly untrusted",
+        )
+    if e.successor_observer_trusted is None:
+        return VerificationResult(
+            Disposition.INDETERMINATE,
+            "successor observer trust is unknown",
+        )
+
+    if e.successor_fresh is False:
+        return VerificationResult(
+            Disposition.FAILED,
+            "successor observation is stale",
+        )
+    if e.successor_fresh is None:
+        return VerificationResult(
+            Disposition.INDETERMINATE,
+            "successor freshness is unknown",
         )
 
     if e.expected_successor_digest is None:
@@ -113,5 +213,6 @@ def verify_transition(e: TransitionEvidence) -> VerificationResult:
 
     return VerificationResult(
         Disposition.CLOSED,
-        "authorization, predecessor, execution, policy, successor, and replay bindings agree",
+        "resource, authorization, predecessor, execution, policy, successor, "
+        "observer trust, freshness, and replay bindings agree",
     )
