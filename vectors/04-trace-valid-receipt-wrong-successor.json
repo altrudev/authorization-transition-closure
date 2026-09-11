@@ -1,0 +1,34 @@
+{
+  "id": "trace-valid-receipt-wrong-successor",
+  "description": "A TRACE-composing action receipt is assumed valid for the requested action, while an independent trusted observation shows a different successor than the authorized transition permits.",
+  "source_assumptions": [
+    "TRACE Trust Record verifies",
+    "action receipt issuer, signature, action binding, freshness and chain checks verify",
+    "receipt validity does not itself claim external completion"
+  ],
+  "evidence": {
+    "authorization_id": "auth-001",
+    "authorized_resource_id": "resource:acct-17",
+    "execution_resource_id": "resource:acct-17",
+    "observation_resource_id": "resource:acct-17",
+    "authorized_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "executed_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authorized_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observed_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "expected_successor_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "observed_successor_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "execution_policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "predecessor_observer_trusted": true,
+    "successor_observer_trusted": true,
+    "predecessor_fresh": true,
+    "successor_fresh": true,
+    "execution_succeeded": true,
+    "replay_detected": false,
+    "successor_observed": true
+  },
+  "expected": {
+    "disposition": "FAILED",
+    "reason_contains": "successor"
+  }
+}
