@@ -1,0 +1,19 @@
+{
+  "source_repository": "agentrust-io/ca2a",
+  "source_revision": "d3b7eb618084c4dc2f1270c2050d443f5bab5a3d",
+  "source_files": {
+    "holder": "src/ca2a_runtime/delegation/holder.py",
+    "holder_blob_sha": "99a9799f65a783bfe3a81c972be11b5030cd277a",
+    "credential": "src/ca2a_runtime/delegation/credential.py",
+    "credential_blob_sha": "c3d29c047bfae08eb7b29d99c3b684deec9081b7",
+    "challenge": "src/ca2a_runtime/challenge.py",
+    "challenge_blob_sha": "39ed2434feccaf69f78ef87daef9cc2be36f1e78",
+    "canonical": "src/ca2a_runtime/canonical.py",
+    "canonical_blob_sha": "16fdf941bd5ef3c8754a5cdfbf55d9511e73a91a",
+    "replay_test": "tests/unit/test_holder_binding.py",
+    "replay_test_blob_sha": "4cfeca3e1530c5377e5a0650c6db0b8a8dadec58"
+  },
+  "upstream_property": "Holder proof is stateless and may replay inside its authenticated challenge TTL. Exactly-once requires additional state.",
+  "copied_for": "ATC interoperability experiment",
+  "interpretation_boundary": "A valid cA2A chain and holder proof establish delegated authority and possession for the exact committed request fields. They do not establish exactly-once consequential transition or target-resource predecessor/successor state."
+}
