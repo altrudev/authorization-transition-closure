@@ -1,0 +1,35 @@
+{
+  "id": "complete-state-bound-transition",
+  "description": "Existing authorization/execution evidence is composed with trusted fresh S0 and S1 observations for the same resource and a known non-replay result.",
+  "source_assumptions": [
+    "authorization evidence verifies under its source profile",
+    "execution evidence verifies under its source profile",
+    "state observations come from a profile-defined trusted observer",
+    "observer trust is an explicit relying-party input"
+  ],
+  "evidence": {
+    "authorization_id": "auth-001",
+    "authorized_resource_id": "resource:acct-17",
+    "execution_resource_id": "resource:acct-17",
+    "observation_resource_id": "resource:acct-17",
+    "authorized_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "executed_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authorized_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observed_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "expected_successor_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "observed_successor_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "execution_policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "predecessor_observer_trusted": true,
+    "successor_observer_trusted": true,
+    "predecessor_fresh": true,
+    "successor_fresh": true,
+    "execution_succeeded": true,
+    "replay_detected": false,
+    "successor_observed": true
+  },
+  "expected": {
+    "disposition": "CLOSED",
+    "reason_contains": "bindings agree"
+  }
+}
