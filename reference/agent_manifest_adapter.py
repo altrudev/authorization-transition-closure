@@ -3,16 +3,22 @@
 This module verifies the pinned language-neutral Agent Manifest vector
 AM-VEC-009 and preserves Agent Manifest's assurance boundary: manifest/HITL
 approval does not become per-call authorization or target-resource state proof.
+
+The pinned vector uses only ASCII object keys plus JSON strings, integers,
+booleans, arrays, and null-valued mapping entries that Agent Manifest excludes
+from its canonical form. The restricted canonicalizer below is byte-equivalent
+for that fixture; it deliberately rejects floats and non-ASCII object keys
+instead of pretending to be a complete RFC 8785 implementation.
 """
 
 from __future__ import annotations
 
 import base64
+import json
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-import rfc8785
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
@@ -58,16 +64,35 @@ def _b64url_decode(value: str) -> bytes:
     return base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
 
 
-def _drop_none(value: Any) -> Any:
+def _normalize_restricted(value: Any) -> Any:
+    if isinstance(value, float):
+        raise ValueError("floats require a complete RFC 8785 implementation")
     if isinstance(value, dict):
-        return {k: _drop_none(v) for k, v in value.items() if v is not None}
+        out: dict[str, Any] = {}
+        for key, child in value.items():
+            if not isinstance(key, str):
+                raise ValueError("JSON object keys must be strings")
+            if not key.isascii():
+                raise ValueError(
+                    "non-ASCII object keys require full UTF-16 JCS ordering"
+                )
+            if child is not None:
+                out[key] = _normalize_restricted(child)
+        return out
     if isinstance(value, list):
-        return [_drop_none(v) for v in value]
-    return value
+        return [_normalize_restricted(child) for child in value]
+    if value is None or isinstance(value, (str, int, bool)):
+        return value
+    raise TypeError(f"unsupported JSON value type: {type(value).__name__}")
 
 
 def _canonical(value: Any) -> bytes:
-    return rfc8785.dumps(_drop_none(value))
+    return json.dumps(
+        _normalize_restricted(value),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
 
 
 def _manifest_preimage(manifest: dict[str, Any]) -> bytes:
@@ -123,7 +148,7 @@ def verify_agent_manifest_hitl_vector(vector: dict[str, Any]) -> AgentManifestRe
                     _b64url_decode(signature["signature_value"]),
                     _manifest_preimage(manifest),
                 )
-            except (InvalidSignature, ValueError, KeyError):
+            except (InvalidSignature, ValueError, KeyError, TypeError):
                 failures.append("manifest_signature_invalid")
 
     artifacts = manifest.get("artifacts", {})
@@ -210,12 +235,7 @@ def agent_manifest_to_atc_partial(
     vector: dict[str, Any],
     result: AgentManifestResult,
 ) -> TransitionEvidence:
-    """Map only facts Agent Manifest actually proves.
-
-    The manifest contributes policy/configuration identity and authenticated
-    HITL approval. It does not generically identify one per-call action,
-    one target resource, or S0/S1 target-resource state.
-    """
+    """Map only facts Agent Manifest actually proves."""
 
     if not result.valid:
         raise ValueError("cannot map invalid Agent Manifest evidence")
@@ -255,12 +275,7 @@ def compose_valid_hitl_with_external_action(
     observed_predecessor_digest: str,
     predecessor_fresh: bool,
 ) -> TransitionEvidence:
-    """Compose valid HITL/config evidence with separate per-call authorization.
-
-    This is the correct boundary: Agent Manifest supplies approved
-    configuration/HITL authority; an external layer supplies the exact action
-    and target-resource state binding.
-    """
+    """Compose valid HITL/config evidence with separate per-call authorization."""
 
     if not result.valid:
         raise ValueError("Agent Manifest evidence must verify first")
