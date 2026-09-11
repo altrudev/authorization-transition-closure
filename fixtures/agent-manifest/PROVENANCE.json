@@ -1,0 +1,9 @@
+{
+  "source_repository": "agentrust-io/agent-manifest",
+  "source_revision": "3525644331fc5d7a7d9055a875bd5c81f31fc492",
+  "source_path": "python/tests/vectors/AM-VEC-009.json",
+  "source_blob_sha": "23ff1e409efd60105d3bd0c387978a55daed918d",
+  "source_vector": "AM-VEC-009",
+  "copied_for": "ATC interoperability experiment",
+  "interpretation_boundary": "VALID / HITL APPROVED authenticates the manifest and its approval scope. Agent Manifest explicitly leaves per-call authorization to a consuming policy layer; this vector does not by itself bind an exact consequential call or target-resource predecessor/successor state."
+}
