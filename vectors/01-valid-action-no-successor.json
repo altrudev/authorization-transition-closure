@@ -1,0 +1,34 @@
+{
+  "id": "valid-action-no-successor",
+  "description": "Authorization and execution evidence are assumed valid, but no independently observed successor state exists.",
+  "source_assumptions": [
+    "TRACE action/call binding verifies under its own profile",
+    "authorization evidence is authentic and current",
+    "these assumptions are inputs to the experiment, not re-verified by ATC"
+  ],
+  "evidence": {
+    "authorization_id": "auth-001",
+    "authorized_resource_id": "resource:acct-17",
+    "execution_resource_id": "resource:acct-17",
+    "observation_resource_id": "resource:acct-17",
+    "authorized_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "executed_action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authorized_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observed_predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "expected_successor_digest": null,
+    "observed_successor_digest": null,
+    "policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "execution_policy_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "predecessor_observer_trusted": true,
+    "successor_observer_trusted": null,
+    "predecessor_fresh": true,
+    "successor_fresh": null,
+    "execution_succeeded": true,
+    "replay_detected": false,
+    "successor_observed": false
+  },
+  "expected": {
+    "disposition": "INDETERMINATE",
+    "reason_contains": "successor state"
+  }
+}
