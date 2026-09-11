@@ -125,4 +125,12 @@ A future integration profile should be proposed only after executable vectors de
 
 ## Status
 
-Research prototype with an executable exact-binding baseline. The next phase is independent execution of the vector corpus and adapter experiments against real upstream evidence artifacts.
+Experimental research artifact with pinned upstream adapters, a full cross-system composition experiment, STBP v0.1 draft profile/schema, conformance requirements, interoperability mapping, and governed DSR verification.
+
+For external technical review, start with:
+
+- `docs/research-note-v0.1.md`
+- `docs/adr/0001-state-transition-binding-profile.md`
+- `REVIEW.md`
+
+STBP v0.1 is not presented as a finished standard. The profile should be narrowed, superseded, or retired if an existing normative mechanism already closes the demonstrated transition-evidence gap.
