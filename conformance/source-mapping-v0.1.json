@@ -52,6 +52,16 @@
           "field": "authorization.predecessor_digest",
           "coverage": "not-established",
           "claim": "no generic target-resource predecessor state"
+        },
+        {
+          "field": "execution.succeeded",
+          "coverage": "not-established",
+          "claim": "manifest/HITL validity is not execution consequence"
+        },
+        {
+          "field": "successor.state_digest",
+          "coverage": "not-established",
+          "claim": "no generic target-resource successor state"
         }
       ]
     },
