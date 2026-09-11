@@ -1,0 +1,9 @@
+{
+  "source_repository": "agentrust-io/trace-spec",
+  "source_revision": "10fcba46c8a08010c205952bf4d197a25b4dc80e",
+  "source_path": "examples/action-receipts/conformance/01-valid-controller-accepted.json",
+  "source_blob_sha": "853b029d2d4a97e06f82bcaf315c46d51e03c53c",
+  "source_profile": "trace.action_receipt.conformance.v0",
+  "copied_for": "ATC interoperability experiment",
+  "interpretation_boundary": "A valid TRACE action receipt proves a trusted issuer signed a statement about the bound action under the call/session context. It does not prove physical completion or intended successor state."
+}
