@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://altru.dev/atc/schema/stbp-v0.1.schema.json",
+  "title": "ATC State-Transition Binding Profile v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile",
+    "transition_id",
+    "resource",
+    "authorization",
+    "execution",
+    "predecessor",
+    "successor",
+    "replay",
+    "predicate"
+  ],
+  "properties": {
+    "profile": {"const": "atc.stbp.v0.1"},
+    "transition_id": {"type": "string", "minLength": 1},
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resource_id", "representation"],
+      "properties": {
+        "resource_id": {"type": "string", "minLength": 1},
+        "representation": {"type": "string", "minLength": 1}
+      }
+    },
+    "authorization": {
+      "$ref": "#/$defs/boundAction"
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_digest", "policy_digest", "succeeded", "evidence_ref"],
+      "properties": {
+        "action_digest": {"$ref": "#/$defs/digest"},
+        "policy_digest": {"$ref": "#/$defs/digest"},
+        "succeeded": {"type": ["boolean", "null"]},
+        "evidence_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "predecessor": {
+      "$ref": "#/$defs/observation"
+    },
+    "successor": {
+      "$ref": "#/$defs/observation"
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_ref"],
+      "properties": {
+        "status": {
+          "enum": ["not-replayed", "replayed", "unknown"]
+        },
+        "evidence_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "expected_successor_digest"],
+      "properties": {
+        "type": {"const": "exact-successor-digest"},
+        "expected_successor_digest": {"$ref": "#/$defs/digest"}
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "boundAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization_id",
+        "action_digest",
+        "predecessor_digest",
+        "policy_digest",
+        "evidence_ref"
+      ],
+      "properties": {
+        "authorization_id": {"type": "string", "minLength": 1},
+        "action_digest": {"$ref": "#/$defs/digest"},
+        "predecessor_digest": {"$ref": "#/$defs/digest"},
+        "policy_digest": {"$ref": "#/$defs/digest"},
+        "evidence_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_digest",
+        "observer_id",
+        "observed_at",
+        "trusted",
+        "fresh",
+        "evidence_ref"
+      ],
+      "properties": {
+        "state_digest": {"$ref": "#/$defs/digest"},
+        "observer_id": {"type": "string", "minLength": 1},
+        "observed_at": {"type": "string", "minLength": 1},
+        "trusted": {"type": ["boolean", "null"]},
+        "fresh": {"type": ["boolean", "null"]},
+        "evidence_ref": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
