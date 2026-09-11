@@ -3,6 +3,7 @@ name = "authorization-transition-closure"
 version = "0.1.0"
 description = "Research prototype for verifying authorization-to-transition closure"
 requires-python = ">=3.11"
+dependencies = ["cryptography>=45,<47"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<9"]
