@@ -1,0 +1,45 @@
+{
+  "profile": "atc.stbp.v0.1",
+  "transition_id": "example-closed-001",
+  "resource": {
+    "resource_id": "git:repo/example",
+    "representation": "git-tree-sha256"
+  },
+  "authorization": {
+    "authorization_id": "auth:example-001",
+    "action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "predecessor_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "policy_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "evidence_ref": "trace:receipt:example"
+  },
+  "execution": {
+    "action_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "policy_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "succeeded": true,
+    "evidence_ref": "dsr:result:example"
+  },
+  "predecessor": {
+    "state_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observer_id": "observer:git",
+    "observed_at": "2026-09-11T20:00:00Z",
+    "trusted": true,
+    "fresh": true,
+    "evidence_ref": "observer:s0:example"
+  },
+  "successor": {
+    "state_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "observer_id": "observer:git",
+    "observed_at": "2026-09-11T20:00:01Z",
+    "trusted": true,
+    "fresh": true,
+    "evidence_ref": "observer:s1:example"
+  },
+  "replay": {
+    "status": "not-replayed",
+    "evidence_ref": "replay:receipt:example"
+  },
+  "predicate": {
+    "type": "exact-successor-digest",
+    "expected_successor_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  }
+}
