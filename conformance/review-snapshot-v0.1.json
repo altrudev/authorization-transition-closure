@@ -1,0 +1,59 @@
+{
+  "schema": "atc-review-snapshot/1",
+  "snapshot": "stbp-v0.1-review-snapshot",
+  "status": "frozen-for-external-technical-review",
+  "freeze_date": "2026-09-11",
+  "pre_freeze_evidence_revision": "5a77440d754b1232da2f8a6b45d2eb72ffae52db",
+  "upstream": {
+    "trace": {
+      "repo": "agentrust-io/trace-spec",
+      "revision": "10fcba46c8a08010c205952bf4d197a25b4dc80e",
+      "artifact": "examples/action-receipts/conformance/01-valid-controller-accepted.json"
+    },
+    "agent_manifest": {
+      "repo": "agentrust-io/agent-manifest",
+      "revision": "3525644331fc5d7a7d9055a875bd5c81f31fc492",
+      "artifact": "python/tests/vectors/AM-VEC-009.json"
+    },
+    "ca2a": {
+      "repo": "agentrust-io/ca2a",
+      "revision": "d3b7eb618084c4dc2f1270c2050d443f5bab5a3d"
+    }
+  },
+  "dsr_jobs": {
+    "trace_adapter": "a7c3e91d54b648c2a10f7e3d5b9c2468",
+    "agent_manifest_adapter": "c2f5d8a174b64e3f90a1c7d5e2b84369",
+    "ca2a_adapter": "d3a6f9c281b54e70a4c8d1e5f7b29360",
+    "full_composition": "e4b7a2c95d1f4630b8e6a9d37c524f18",
+    "stbp_conformance": "f5c8b1d47e2a4930a6d9c3e7b12584f0",
+    "interoperability_package": "b7e0c4d219f34a68a1d5e7c9832f604b",
+    "real_git_regression": "d9a1c6e47b2f4058a3e7c9d5216b804f",
+    "real_git_transition": "e1b4d7c923f64a50b8e2d5f6a913704c"
+  },
+  "real_git_transition": {
+    "transition_id": "git-transition:8c50fcdcab6dfff485714cdaaf72ac6737b16126e6308b91b40e2d41611456f5",
+    "git": {
+      "authorized_s0": "00ce80ea220e4fc18efe83a53a5d191b1928a857",
+      "observed_s0": "00ce80ea220e4fc18efe83a53a5d191b1928a857",
+      "expected_s1": "fc5eb13e1c4278453be4574b6edebb87abc51836",
+      "observed_s1": "fc5eb13e1c4278453be4574b6edebb87abc51836"
+    },
+    "commitments": {
+      "s0": "sha256:ed35fda7d504e226c202271a82fee13d337617e01a9f0875a22376fe19339d8a",
+      "action": "sha256:276d44428c69b25b5edce35f689bb7bce2861398fc97c29efdae93b918ad2000",
+      "policy": "sha256:e7cf6a9b0ecc45047cf779f2af34de0a935b7212310824a5a00a3537cd4d62e5",
+      "expected_s1": "sha256:fdd9f2a8b306561d9d694dbbef3cad6739a5c765494b1783b75ef1a5ca3bf1a2",
+      "observed_s1": "sha256:fdd9f2a8b306561d9d694dbbef3cad6739a5c765494b1783b75ef1a5ca3bf1a2"
+    },
+    "before_replay": "INDETERMINATE",
+    "after_single_use": "CLOSED",
+    "second_use_blocked": true
+  },
+  "known_issues": [
+    {
+      "repo": "altrudev/DDC-Remote-Executor",
+      "issue": 44,
+      "scope": "Parallax shadow causal-graph ingestion can report existing DSR parent artifacts as missing"
+    }
+  ]
+}
