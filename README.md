@@ -127,8 +127,9 @@ A future integration profile should be proposed only after executable vectors de
 
 Experimental research artifact with pinned upstream adapters, a full cross-system composition experiment, STBP v0.1 draft profile/schema, conformance requirements, interoperability mapping, and governed DSR verification.
 
-For external technical review, start with:
+For external technical review, use the frozen `stbp-v0.1-review-snapshot` branch and start with:
 
+- `SNAPSHOT-v0.1.md`
 - `docs/research-note-v0.1.md`
 - `docs/adr/0001-state-transition-binding-profile.md`
 - `REVIEW.md`
