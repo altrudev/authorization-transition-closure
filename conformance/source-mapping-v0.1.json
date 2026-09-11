@@ -1,0 +1,102 @@
+{
+  "profile": "atc.stbp.interop-map.v0.1",
+  "upstream": [
+    {
+      "system": "TRACE",
+      "pinned_revision": "10fcba46c8a08010c205952bf4d197a25b4dc80e",
+      "artifact": "examples/action-receipts/conformance/01-valid-controller-accepted.json",
+      "supplies": [
+        {
+          "field": "authorization.action_digest",
+          "coverage": "direct",
+          "claim": "bound action reference"
+        },
+        {
+          "field": "execution.action_digest",
+          "coverage": "composable",
+          "claim": "receipt binds the same action reference"
+        },
+        {
+          "field": "execution.succeeded",
+          "coverage": "not-established",
+          "claim": "accepted does not claim physical completion"
+        },
+        {
+          "field": "successor.state_digest",
+          "coverage": "not-established",
+          "claim": "no generic successor-state observation"
+        }
+      ]
+    },
+    {
+      "system": "Agent Manifest",
+      "pinned_revision": "3525644331fc5d7a7d9055a875bd5c81f31fc492",
+      "artifact": "python/tests/vectors/AM-VEC-009.json",
+      "supplies": [
+        {
+          "field": "authorization.authorization_id",
+          "coverage": "direct",
+          "claim": "manifest/HITL identity"
+        },
+        {
+          "field": "authorization.policy_digest",
+          "coverage": "direct",
+          "claim": "policy bundle hash"
+        },
+        {
+          "field": "authorization.action_digest",
+          "coverage": "not-generic",
+          "claim": "HITL vector does not generically bind one consequential call"
+        },
+        {
+          "field": "authorization.predecessor_digest",
+          "coverage": "not-established",
+          "claim": "no generic target-resource predecessor state"
+        }
+      ]
+    },
+    {
+      "system": "cA2A",
+      "pinned_revision": "d3b7eb618084c4dc2f1270c2050d443f5bab5a3d",
+      "artifact": "holder/delegation/challenge implementation",
+      "supplies": [
+        {
+          "field": "authorization.action_digest",
+          "coverage": "composable",
+          "claim": "holder proof commits exact request-relevant fields"
+        },
+        {
+          "field": "replay.status",
+          "coverage": "partial",
+          "claim": "challenge bounds replay window but does not establish exactly-once"
+        },
+        {
+          "field": "execution.succeeded",
+          "coverage": "not-established",
+          "claim": "authorization/holder verification is not execution consequence"
+        },
+        {
+          "field": "successor.state_digest",
+          "coverage": "not-established",
+          "claim": "no generic successor-state observation"
+        }
+      ]
+    }
+  ],
+  "external_required": [
+    "resource.resource_id",
+    "resource.representation",
+    "authorization.predecessor_digest",
+    "execution.succeeded",
+    "predecessor.state_digest",
+    "predecessor.observer_id",
+    "predecessor.trusted",
+    "predecessor.fresh",
+    "successor.state_digest",
+    "successor.observer_id",
+    "successor.trusted",
+    "successor.fresh",
+    "replay.status:not-replayed",
+    "predicate.expected_successor_digest"
+  ]
+}
