@@ -8,6 +8,11 @@ Closure / STBP v0.1.
 - `spec/state-transition-binding-profile-v0.1.md`
 - `spec/conformance-v0.1.md`
 - `schema/stbp-v0.1.schema.json`
+- `docs/adr/0001-state-transition-binding-profile.md`
+
+## Research note
+
+- `docs/research-note-v0.1.md`
 
 ## Evidence and interoperability
 
