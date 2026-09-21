@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use, evaluate, discuss, or reference Authorization Transition Closure, please cite it using this metadata."
+title: "Authorization Transition Closure"
+type: software
+authors:
+  - family-names: "Rukhaylo"
+    given-names: "Valentyn"
+    website: "https://altru.dev/about"
+repository-code: "https://github.com/altrudev/authorization-transition-closure"
+url: "https://altru.dev"
+version: "0.1.0"
+abstract: "An experimental assurance model and executable research artifact for examining whether authorized actions close over the state transitions they actually produce."
+keywords:
+  - "authorization"
+  - "state transitions"
+  - "AI agents"
+  - "assurance"
+  - "evidence"
