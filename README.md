@@ -123,6 +123,18 @@ ATC is designed to compose with evidence produced by other systems rather than r
 
 A future integration profile should be proposed only after executable vectors demonstrate an ambiguity that existing normative mechanisms cannot already resolve.
 
+## External technical record
+
+The public OAuth WG discussion, independent reproduction of the reviewed eight-scenario probe, subsequent reviewer challenges, and the later strengthened pinned revision are documented in [EXTERNAL_EVIDENCE.md](EXTERNAL_EVIDENCE.md). The evidence record keeps the reproduced revision separate from the later strengthened revision.
+
+## Author and provenance
+
+Created by **[Valentyn Rukhaylo](https://altru.dev/about) / [Altru.dev](https://altru.dev/)** as part of the broader DDC systems-assurance body of work.
+
+Related assurance practice: [DDC Assurance Lab](https://altru.dev/ddc-assurance-lab) · [ddcal.ca](https://ddcal.ca/).
+
+See [PROVENANCE.md](PROVENANCE.md), [AUTHORS.md](AUTHORS.md), and [CITATION.cff](CITATION.cff).
+
 ## Status
 
 Experimental research artifact with pinned upstream adapters, a full cross-system composition experiment, STBP v0.1 draft profile/schema, conformance requirements, interoperability mapping, and governed DSR verification.
